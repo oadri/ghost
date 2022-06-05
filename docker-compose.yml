@@ -1,0 +1,28 @@
+version: "3.9"
+services:
+  db:
+    image: mysql
+    volumes:
+      - db:/var/lib/mysql 
+    ports:
+      - 3306:3306
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: abc123.
+      MYSQL_DATABASE: ghost
+  ghost:
+    image: ghost:4-alpine
+    ports:
+      - 3001:2368
+    volumes:
+      - blog:/var/lib/ghost/content
+    restart: always
+    environment:
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: root
+      database__connection__password: abc123.
+      database__connection__database: ghost
+volumes:
+  db:
+  blog:
